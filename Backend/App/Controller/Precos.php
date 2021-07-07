@@ -2,15 +2,15 @@
 
 use App\Core\Controller;
 
-class Categorias extends Controller{
+class Precos extends Controller{
 
     public function index(){
 
-        $categoriaModel = $this->model("Preco");
+        $precoModel = $this->model("Preco");
 
-        $categorias = $categoriaModel->listarTodas();
+        $precos = $precoModel->listarTodas();
 
-        echo json_encode($categorias, JSON_UNESCAPED_UNICODE);
+        echo json_encode($precos, JSON_UNESCAPED_UNICODE);
     }
 
     public function store(){
@@ -41,7 +41,11 @@ class Categorias extends Controller{
             http_response_code(500);
             echo json_encode(["erro" => "Problemas ao inserir preco"]);
         }
-
     }
+
+    
+
+
+
 
 }

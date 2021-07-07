@@ -23,13 +23,6 @@ class Router{
         //recuperar a url que está sendo acessada
         $url = $this->parseURL();
 
-        //mvc.icatalogo.com.br/produtos/editar/55
-        //url[0] = mvc.icatalogo.com.br
-        //url[1] = produtos
-        //url[2] = inserir
-        //url[3] = 55
-
-
         //se o controller existir dentro da pasta de controllers
         if(isset($url[1]) && file_exists("../App/Controller/" . $url[1] . ".php")){
 
@@ -38,7 +31,7 @@ class Router{
         }elseif(empty($url[1])){
 
             //setamos o controller padrão da aplicação (produtos)
-            $this->controller = "produtos";
+            $this->controller = "precos";
         }else{
 
             //se não existir e houver um controller na url

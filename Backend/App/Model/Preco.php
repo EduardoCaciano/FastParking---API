@@ -10,7 +10,7 @@ class Preco{
 
     public function listarTodas(){
 
-        $sql = " SELECT * FROM tbl_precos ";
+        $sql = " SELECT * FROM tbl_preco ";
         
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->execute();
@@ -26,7 +26,7 @@ class Preco{
 
     public function salvar(){
 
-        $sql = " INSERT INTO tbl_precos (primeiraHora, demaisHoras) VALUES (now(), now()) ";
+        $sql = " INSERT INTO tbl_preco (primeiraHora, demaisHoras) VALUES (now(), now()) ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->bindValue(1, $this->descricao);
