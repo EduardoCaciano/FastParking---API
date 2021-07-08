@@ -31,12 +31,15 @@ class Carro{
         }
     }
 
-    public function salvar(){
+    public function insert(){
 
-        $sql = " INSERT INTO tbl_preco (primeiraHora, demaisHoras) VALUES (now(), now()) ";
+        $sql = " INSERT INTO tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor) values ('Rafael Leme', 'ASD-1507', now(), now(), now(), 5) ";
 
         $stmt = Model::getConexao()->prepare($sql);
-        $stmt->bindValue(1, $this->descricao);
+        $stmt->bindValue(1, $this->nome);
+        $stmt->bindValue(1, $this->placa);
+        $stmt->bindValue(1, $this->valor);
+
 
         if($stmt->execute()){
             // se der certo, atribuir o id inserido a instância desta classe
@@ -47,5 +50,32 @@ class Carro{
         }
     }
 
+    public function update()
+    {
+        $sql = " UPDATE tbl_carro  
+                 SET nome = ?, placa = ? 
+                 WHERE idCarro = ? ";
+
+        $stmt = Model::getConexao()->prepare($sql);
+        $stmt->bindValue(1, $this->nome);
+        $stmt->bindValue(2, $this->placa);
+        $stmt->bindValue(3, $this->idCarro);
+
+        return $stmt->execute();
+    }
+
+
+    public function delete()
+    {
+        $sql = " UPDATE tbl_carros 
+                 SET horaSaida = curtime(), valor = ?  
+                 WHERE idCarro = ? ";
+
+        $stmt = Model::getConexao()->prepare($sql);
+        $stmt->bindValue(1, $this->valor);
+        $stmt->bindValue(2, $this->idCarro);
+
+        return $stmt->execute();
+    }
 
 }

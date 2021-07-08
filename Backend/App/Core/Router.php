@@ -28,15 +28,10 @@ class Router{
 
             $this->controller = $url[1];
             unset($url[1]);
-        }elseif(empty($url[1])){
-
-            //setamos o controller padrão da aplicação (produtos)
-            $this->controller = "precos";
-        }else{
-
-            //se não existir e houver um controller na url
-            //exibimos página não encontrada
-            $this->controller = "erro404";
+        }else {
+            // print_r($url);
+            echo "Algo deu errado";
+            exit;
         }
 
         //importamos o controller
