@@ -2,7 +2,8 @@
 
 namespace App\Core;
 
-class Router{
+class Router
+{
 
     private $controller;
 
@@ -12,8 +13,9 @@ class Router{
 
     private $params = [];
 
-    function __construct(){
-        
+    function __construct()
+    {
+
         //setando no header do responde o content-hype
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -24,11 +26,11 @@ class Router{
         $url = $this->parseURL();
 
         //se o controller existir dentro da pasta de controllers
-        if(isset($url[1]) && file_exists("../App/Controller/" . $url[1] . ".php")){
+        if (isset($url[1]) && file_exists("../App/Controller/" . $url[1] . ".php")) {
 
             $this->controller = $url[1];
             unset($url[1]);
-        }else {
+        } else {
             // print_r($url);
             echo "Algo deu errado";
             exit;
@@ -44,50 +46,51 @@ class Router{
         $this->httpMethod = $_SERVER["REQUEST_METHOD"];
 
         //pegando o método do controller baseando-se no http method
-        switch($this->httpMethod){
+        switch ($this->httpMethod) {
 
             case "GET":
-                if(!isset($url[2])){
-                        $this->controllerMethod = "index";
-                    }else{
-                        http_response_code(400);
-                        echo json_encode(["erro" => "Parâmetro inválido"], 
-                        JSON_UNESCAPED_UNICODE);
-                        exit;
-                    }
-                
+                if (!isset($url[2])) {
+                    $this->controllerMethod = "index";
+                } elseif (is_numeric($url[2])) {
+                    $this->controllerMethod = "find";
+                    $this->params = [$url[2]];
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["erro" => "Parâmetro inválido"], JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
                 break;
-           
+
             case "POST":
-           $this->controllerMethod = "store";
-           break;
-           
+                $this->controllerMethod = "store";
+                break;
+
             case "PUT":
                 $this->controllerMethod = "update";
                 $this->getParams($url);
-           break;
-           
+                break;
+
             case "DELETE":
-           $this->controllerMethod = "delete";
-           $this->getParams($url);
-            break;
-           
+                $this->controllerMethod = "delete";
+                $this->getParams($url);
+                break;
         }
 
         //executamos o método dentro do controller, passando os parametros
         call_user_func_array([$this->controller, $this->controllerMethod], $this->params);
-
     }
 
     //recuperar a URL e retornar os parametros
-    private function parseURL(){
+    private function parseURL()
+    {
         return explode("/", $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
     }
 
-    private function getParams($url){
-        if(isset($url[2]) && is_numeric($url[2])){
+    private function getParams($url)
+    {
+        if (isset($url[2]) && is_numeric($url[2])) {
             $this->params = [$url[2]];
-        }else{
+        } else {
             http_response_code(400); //400 bad request
             echo json_encode(["erro" => "Parâmetro inválido"], JSON_UNESCAPED_UNICODE);
             exit;

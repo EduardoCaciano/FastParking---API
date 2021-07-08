@@ -26,10 +26,12 @@ class Preco{
 
     public function salvar(){
 
-        $sql = " INSERT INTO tbl_preco (primeiraHora, demaisHoras) VALUES (now(), now()) ";
+        $sql = " INSERT INTO tbl_preco (primeiraHora, demaisHoras) 
+        VALUES (?, ?) ";
 
         $stmt = Model::getConexao()->prepare($sql);
-        $stmt->bindValue(1, $this->descricao);
+        $stmt->bindValue(1, $this->primeiraHora);
+        $stmt->bindValue(2, $this->demaisHoras);
 
         if($stmt->execute()){
             // se der certo, atribuir o id inserido a instância desta classe

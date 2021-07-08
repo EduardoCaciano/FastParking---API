@@ -10,14 +10,16 @@ class Controller{
         return new $model;
     }
 
-    protected function getRequestBody(){
-         //pegando o corpo da requisição, retona uma string
-         $json = file_get_contents("php://input");
-         //convertendo a string em objeto
-         $obj = json_decode($json);
 
-         return $obj;
-    }    
+    protected function getRequestBody()
+    {
+        //pegando o corpo da requisição, retona uma string
+        $json = file_get_contents("php://input");
+        //convertendo a string em objeto
+        $obj = json_decode($json);
+
+        return $obj;
+    }  
    
     
 }

@@ -16,21 +16,17 @@ class Carros extends Controller
 
     public function store(){
 
-        //pegando o corpo da requisição, retona uma string
-        $json = file_get_contents("php://input");
-
-        //convertendo a string em objeto
-        $novaCarro = json_decode($json);
+        $novaCarro = $this->getRequestBody();
 
         //instanciando o model
         $carroModel = $this->model("Carro");
 
         $carroModel->nome = $novaCarro->nome;
-        $carroModel->placa = $novaCarro->descricao;
+        $carroModel->placa = $novaCarro->placa;
         $carroModel->idPreco = $carroModel->getPreco()->idPreco;
 
         //chamando o método inserir do model
-        $carroModel = $carroModel->store();
+        $carroModel = $carroModel->insert();
 
         //verificando se deu certo
         if($carroModel){
@@ -51,7 +47,7 @@ class Carros extends Controller
 
         $carroModel = $this->model("Carro");
 
-        $carroModel = $carroModel->buscarPorId($id);
+        $carroModel = $carroModel->findById($id);
 
         if(!$carroModel){
             http_response_code(404);
@@ -71,11 +67,12 @@ class Carros extends Controller
     }
 
 
+
     public function delete($id){
 
         $carroModel = $this->model("Carro");
 
-        $carroModel = $carroModel->buscarPorId($id);
+        $carroModel = $carroModel->findById($id);
 
         if(!$carroModel){
             http_response_code(404);
@@ -110,19 +107,5 @@ class Carros extends Controller
             echo json_encode(["erro" => "Problemas ao excluir carro"]);
         }
     }
-
-    private function validarCampos($nome, $placa)
-    {
-        $erros = [];
-
-        if (!isset($nome) || $nome == "") {
-            $erros[] = "O campo nome é obrigatório";
-        }
-
-        if (!isset($placa) || $placa == "") {
-            $erros[] = "O campo placa é obrigatório";
-        }
-
-        return $erros;
-    }
+    
 }
