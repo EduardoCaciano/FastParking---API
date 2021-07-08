@@ -3,7 +3,7 @@ create database fastpark;
 use fastpark;
 
 create table tbl_carros(
-    id int primary key auto_increment,
+    idCarro int primary key auto_increment,
     nome varchar(255) not null,
     placa varchar(10) not null,
     dia date not null,
@@ -14,18 +14,18 @@ create table tbl_carros(
 
 select * from tbl_carros;
 
-insert into tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor) values ('Rafael Leme', 'ASD-1507', now(), now(), now(), 5);
+insert into tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor) values ('Eduardo Caciano', 'ASV-1877', now(), now(), now(), 2);
+UPDATE tbl_carros SET horaSaida = curtime(), valor = 1 WHERE idCarro = 1;
+/*******************************************************************************************************************************************/
 
-/********************************************************************************************************************************************/
-
-create table tbl_precos(
-	id int primary key auto_increment,
-    primeiraHora decimal not null,
-    demaisHoras decimal not null
+create table tbl_preco (
+	idPreco int primary key not null auto_increment,
+    primeiraHora double,
+    demaisHoras double
 );
 
-select * from tbl_precos;
+insert into tbl_preco (primeiraHora, demaisHoras) values (1.0, 1.50);
 
-insert into tbl_precos (primeiraHora, demaisHoras) values (2.00, 1.50);
+select * from tbl_preco;
 
-delete from tbl_precos where id = 1;
+delete from tbl_preco where idPreco = 2;
