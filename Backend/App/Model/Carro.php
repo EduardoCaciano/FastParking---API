@@ -33,7 +33,8 @@ class Carro{
 
     public function insert(){
 
-        $sql = " INSERT INTO tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor) values ('Rafael Leme', 'ASD-1507', now(), now(), now(), 5) ";
+        $sql = " INSERT INTO tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor, idPreco) 
+        values (?, ?, now(), now(), now(), 5, ?) ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
@@ -43,7 +44,7 @@ class Carro{
 
         if($stmt->execute()){
             // se der certo, atribuir o id inserido a instância desta classe
-            $this->id = Model::getConexao()->lastInsertId();
+            $this->idCarro = Model::getConexao()->lastInsertId();
             return $this;
         }else{
             return false;
@@ -59,7 +60,7 @@ class Carro{
         time_format(horaSaida, '%H:%i') as horaSaida,
         valor,
         idPreco
-        FROM tblCarros WHERE idCarro = ? ";
+        FROM tbl_carros WHERE idCarro = ? ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->bindValue(1, $id);
@@ -84,7 +85,7 @@ class Carro{
 
     public function getpreco()
     {
-        $sql = " SELECT MAX(idPreco) as idPreco, primeiraHora, demaisHoras  FROM tbl_precos ";
+        $sql = " SELECT MAX(idPreco) as idPreco, primeiraHora, demaisHoras  FROM tbl_preco ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->execute();
@@ -100,7 +101,7 @@ class Carro{
 
     public function update()
     {
-        $sql = " UPDATE tbl_carro  
+        $sql = " UPDATE tbl_carros  
                  SET nome = ?, placa = ? 
                  WHERE idCarro = ? ";
 

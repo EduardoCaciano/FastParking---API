@@ -55,7 +55,7 @@ class Carros extends Controller
             exit;
         }
 
-        $carroModel->descricao = $carroEditar->nome;
+        $carroModel->nome = $carroEditar->nome;
         $carroModel->placa = $carroEditar->placa;
 
         if($carroModel->update()){
