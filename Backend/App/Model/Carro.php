@@ -33,8 +33,9 @@ class Carro{
 
     public function insert(){
 
-        $sql = " INSERT INTO tbl_carros (nome, placa, dia, horaEntrada, horaSaida, valor, idPreco) 
-        values (?, ?, now(), now(), now(), 5, ?) ";
+        $sql = " INSERT INTO tbl_carros 
+        (nome, placa, dia, horaEntrada, horaSaida, valor, idPreco) 
+        values (?, ?, curdate(), current_time(), current_time(), 0.0, ?); ";
 
         $stmt = Model::getConexao()->prepare($sql);
         $stmt->bindValue(1, $this->nome);
